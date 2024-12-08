@@ -1,6 +1,8 @@
 package platform
 
-import "os"
+import (
+	"runtime"
+)
 
 // FontPaths represents system and user font directories
 type FontPaths struct {
@@ -19,7 +21,7 @@ type Manager interface {
 
 // New returns a platform-specific manager
 func New() Manager {
-	if os.Getenv("GOOS") == "darwin" {
+	if runtime.GOOS == "darwin" {
 		return newDarwinManager()
 	}
 	return newLinuxManager()
