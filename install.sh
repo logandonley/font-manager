@@ -3,7 +3,7 @@
 set -e
 
 GITHUB_REPO="logandonley/font-manager"
-BINARY_NAME="fm"
+BINARY_NAME="font-manager"
 INSTALL_DIR="/usr/local/bin"
 
 # Colors for output
