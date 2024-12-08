@@ -1,0 +1,72 @@
+run:
+  timeout: 5m
+  tests: true
+
+output:
+  print-issued-lines: true
+  print-linter-name: true
+
+linters-settings:
+  gocyclo:
+    min-complexity: 20
+
+  gofmt:
+    simplify: false
+
+  goconst:
+    min-len: 3
+    min-occurrences: 3
+
+  gosec:
+    includes:
+      - G101 # Look for hard coded credentials
+      - G102 # Bind to all interfaces
+      - G104 # Audit errors not checked
+      - G114 # Use of net/http serve function that has no support for setting timeouts
+
+  revive:
+    enable-all-rules: false
+    rules:
+      - name: exported
+        arguments:
+          - checkPrivateReceivers
+          - disableStutteringCheck
+
+linters:
+  disable-all: true
+  enable:
+    - gofmt
+    - govet
+    - gosimple
+    - goconst
+    - gocyclo
+    - goimports
+    - gosec
+    - revive
+    - ineffassign
+    - misspell
+    - unused
+    - typecheck
+    - errcheck
+    - staticcheck
+    - dupl
+
+issues:
+  # Maximum count of issues with the same text
+  max-same-issues: 3
+
+  # Fix found issues (if it's supported by the linter)
+  fix: false
+
+  exclude-rules:
+    # Exclude some linters from running on test files
+    - path: _test\.go
+      linters:
+        - gocyclo
+        - gosec
+
+    # Exclude some rules for test files
+    - path: _test\.go
+      text: "function name will be used as test\\.Test.* by other packages"
+      linters:
+        - revive
