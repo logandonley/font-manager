@@ -28,7 +28,6 @@ success() {
 
 # Check for required commands
 command -v curl >/dev/null 2>&1 || error "curl is required but not installed"
-command -v tar >/dev/null 2>&1 || error "tar is required but not installed"
 
 # Detect OS and architecture
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
@@ -56,7 +55,7 @@ fi
 info "Latest version: $VERSION"
 
 # Generate download URL
-DOWNLOAD_URL="https://github.com/${GITHUB_REPO}/releases/download/${VERSION}/${BINARY_NAME}_${OS}_${ARCH}.tar.gz"
+DOWNLOAD_URL="https://github.com/${GITHUB_REPO}/releases/download/${VERSION}/${BINARY_NAME}_${OS}_${ARCH}"
 
 # Create temporary directory
 TMP_DIR=$(mktemp -d)
@@ -65,12 +64,9 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Download and extract
+# Download binary
 info "Downloading $DOWNLOAD_URL..."
-curl -sL "$DOWNLOAD_URL" -o "$TMP_DIR/fm.tar.gz"
-
-info "Extracting archive..."
-tar xzf "$TMP_DIR/fm.tar.gz" -C "$TMP_DIR"
+curl -sL "$DOWNLOAD_URL" -o "$TMP_DIR/fm"
 
 # Install binary
 info "Installing to $INSTALL_DIR..."
